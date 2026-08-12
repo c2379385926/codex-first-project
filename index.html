@@ -3,34 +3,301 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="我的第一个 Codex 项目——用 AI 把想法变成可以运行的产品。" />
     <title>我的第一个 Codex 项目</title>
     <style>
+      :root {
+        color-scheme: light;
+        --ink: #17243d;
+        --muted: #60708d;
+        --accent: #3c64f4;
+        --accent-soft: #edf1ff;
+        --line: rgba(23, 36, 61, 0.1);
+        --surface: rgba(255, 255, 255, 0.82);
+      }
+
       * {
         box-sizing: border-box;
       }
 
+      html {
+        scroll-behavior: smooth;
+      }
+
       body {
-        display: grid;
         min-height: 100vh;
         margin: 0;
+        overflow-x: hidden;
+        background:
+          radial-gradient(circle at 8% 8%, rgba(109, 135, 255, 0.2), transparent 30rem),
+          radial-gradient(circle at 95% 45%, rgba(109, 221, 199, 0.14), transparent 27rem),
+          #f7f9fd;
+        color: var(--ink);
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+          "Microsoft YaHei", sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      body::before {
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        background-image: linear-gradient(var(--line) 1px, transparent 1px),
+          linear-gradient(90deg, var(--line) 1px, transparent 1px);
+        background-size: 64px 64px;
+        content: "";
+        opacity: 0.28;
+        mask-image: linear-gradient(to bottom, black, transparent 72%);
+      }
+
+      .page {
+        width: min(1120px, calc(100% - 40px));
+        margin: 0 auto;
+        padding: 28px 0 56px;
+      }
+
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--ink);
+        font-size: 0.92rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-decoration: none;
+      }
+
+      .brand-mark {
+        display: grid;
+        width: 32px;
+        height: 32px;
+        border-radius: 10px;
+        background: var(--ink);
+        color: white;
         place-items: center;
-        background: #f8fafc;
-        color: #0f172a;
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      .nav-note {
+        color: var(--muted);
+        font-size: 0.88rem;
+      }
+
+      .hero {
+        max-width: 880px;
+        padding: clamp(84px, 13vw, 150px) 0 clamp(72px, 10vw, 112px);
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        margin: 0 0 24px;
+        color: var(--accent);
+        font-size: 0.82rem;
+        font-weight: 700;
+        letter-spacing: 0.16em;
+      }
+
+      .eyebrow::before {
+        width: 26px;
+        height: 2px;
+        background: currentColor;
+        content: "";
       }
 
       h1 {
         margin: 0;
-        font-size: clamp(2rem, 6vw, 4rem);
-        font-weight: 600;
-        letter-spacing: -0.04em;
-        text-align: center;
+        font-size: clamp(2.8rem, 8vw, 6.3rem);
+        font-weight: 750;
+        letter-spacing: -0.065em;
+        line-height: 1.04;
+      }
+
+      .subtitle {
+        max-width: 720px;
+        margin: 32px 0 0;
+        color: var(--muted);
+        font-size: clamp(1.15rem, 2.5vw, 1.55rem);
+        line-height: 1.75;
+      }
+
+      .sections {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+      }
+
+      .card {
+        position: relative;
+        min-height: 260px;
+        padding: 30px;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.86);
+        border-radius: 26px;
+        background: var(--surface);
+        box-shadow: 0 20px 60px rgba(36, 52, 91, 0.08);
+        backdrop-filter: blur(18px);
+        transition: transform 180ms ease, box-shadow 180ms ease;
+      }
+
+      .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 26px 70px rgba(36, 52, 91, 0.13);
+      }
+
+      .number {
+        display: inline-grid;
+        width: 42px;
+        height: 42px;
+        border-radius: 14px;
+        background: var(--accent-soft);
+        color: var(--accent);
+        font-size: 0.82rem;
+        font-weight: 800;
+        place-items: center;
+      }
+
+      h2 {
+        margin: 36px 0 14px;
+        font-size: 1.45rem;
+        letter-spacing: -0.03em;
+      }
+
+      .card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 1rem;
+        line-height: 1.75;
+      }
+
+      .card::after {
+        position: absolute;
+        right: -38px;
+        bottom: -50px;
+        width: 130px;
+        height: 130px;
+        border: 22px solid var(--accent-soft);
+        border-radius: 50%;
+        content: "";
+        opacity: 0.62;
+      }
+
+      footer {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        margin-top: 40px;
+        padding-top: 24px;
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 0.84rem;
+      }
+
+      @media (max-width: 780px) {
+        .sections {
+          grid-template-columns: 1fr;
+        }
+
+        .card {
+          min-height: 230px;
+        }
+      }
+
+      @media (max-width: 520px) {
+        .page {
+          width: min(100% - 28px, 1120px);
+          padding-top: 20px;
+        }
+
+        .nav-note {
+          display: none;
+        }
+
+        .hero {
+          padding-top: 72px;
+        }
+
+        h1 {
+          font-size: clamp(2.7rem, 14vw, 4rem);
+        }
+
+        .subtitle {
+          margin-top: 24px;
+        }
+
+        .card {
+          padding: 24px;
+          border-radius: 22px;
+        }
+
+        h2 {
+          margin-top: 28px;
+        }
+
+        footer {
+          flex-direction: column;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+
+        .card {
+          transition: none;
+        }
       }
     </style>
   </head>
   <body>
-    <main>
-      <h1>我的第一个 Codex 项目</h1>
-    </main>
+    <div class="page">
+      <header class="nav">
+        <a class="brand" href="#top" aria-label="返回页面顶部">
+          <span class="brand-mark" aria-hidden="true">C</span>
+          CODEX PROJECT
+        </a>
+        <span class="nav-note">想法，从这里开始生长</span>
+      </header>
+
+      <main id="top">
+        <section class="hero" aria-labelledby="page-title">
+          <p class="eyebrow">HELLO, NEW WORLD</p>
+          <h1 id="page-title">我的第一个<br />Codex 项目</h1>
+          <p class="subtitle">从今天开始，我正在学习用 AI 把想法变成真正可以运行的产品。</p>
+        </section>
+
+        <section class="sections" aria-label="关于这个项目">
+          <article class="card">
+            <span class="number" aria-hidden="true">01</span>
+            <h2>我是谁</h2>
+            <p>一个保持好奇、正在学习创造的人。我相信，每一个好产品都始于一个值得尝试的小想法。</p>
+          </article>
+
+          <article class="card">
+            <span class="number" aria-hidden="true">02</span>
+            <h2>我正在做什么</h2>
+            <p>学习与 AI 协作，把脑海里的构想逐步变成清晰、实用，并且真正可以运行的作品。</p>
+          </article>
+
+          <article class="card">
+            <span class="number" aria-hidden="true">03</span>
+            <h2>下一步计划</h2>
+            <p>持续完善这个项目，尝试更多功能与设计，让每一次更新都比上一次更进一步。</p>
+          </article>
+        </section>
+      </main>
+
+      <footer>
+        <span>我的第一个 Codex 项目</span>
+        <span>保持好奇，持续创造。</span>
+      </footer>
+    </div>
   </body>
 </html>
